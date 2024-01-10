@@ -1,5 +1,12 @@
 # Polygon-Booleans
 (Unity-C#) This class provides a method for performing both subtraction and addition operations on two-dimensional polygons.
-<img width="666" alt="image" src="https://github.com/IsaakThaddaeus/Polygon-Booleans/assets/66296094/38b449f3-717b-4d19-86fc-33ea1b64e5b4">
-<img width="644" alt="image" src="https://github.com/IsaakThaddaeus/Polygon-Booleans/assets/66296094/c2ca9c55-0c51-4755-8ec7-3c7e03799c95">
+
+Input:
+<img width="310" alt="image" src="https://github.com/IsaakThaddaeus/Polygon-Booleans/assets/66296094/5e82291e-e6fe-4a5e-aa69-1fe1dfdcfcd1">
+
+Subtraction output:
+<img width="304" alt="image" src="https://github.com/IsaakThaddaeus/Polygon-Booleans/assets/66296094/bac3a7cc-fcb7-45ad-86b0-31408f09d4db">
+
+Addition output:
+<img width="306" alt="image" src="https://github.com/IsaakThaddaeus/Polygon-Booleans/assets/66296094/fa7987ea-c02b-4497-8628-3d4bf2fb0b7b">
 
