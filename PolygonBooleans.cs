@@ -32,9 +32,15 @@ public static class PolygonBooleans
         intersectPolygons();
         insertPoints(verticesA, verticesB);
         insertPoints(verticesB, verticesA);
+
         crossoverPolygons();
         poinsInside(verticesA, verticesB);
         poinsInside(verticesB, verticesA);
+
+        for(int i = 0; i < verticesA.Count; i++)
+        {
+            Debug.Log(verticesA[i].pos + " " + verticesA[i].outside);
+        }
 
         // Process the Polygons
         outputPolygons = new List<List<Vector2>>();
@@ -57,23 +63,32 @@ public static class PolygonBooleans
     }
     static void intersectPolygons()
     {
-        int i = 0;
-        int j = 0;
- 
-        while (i  < verticesA.Count)
+        
+        for(int i = 0; i < verticesA.Count; i++)
         {
-            while (j < verticesB.Count)
+            for (int j = 0; j < verticesB.Count; j++)
             {
-                bool inter = LineIntersector.intersectionPointNoTouch(verticesA[i].pos, verticesA[(i + 1) % verticesA.Count].pos, verticesB[j].pos, verticesB[(j + 1) % verticesB.Count].pos, out Vector2 intersection);
+                bool inter = LineIntersector.intersectionPoint(verticesA[i].pos, verticesA[(i + 1) % verticesA.Count].pos, verticesB[j].pos, verticesB[(j + 1) % verticesB.Count].pos, out Vector2 intersection);
 
-                if (inter == true)
+                if (inter == true && !verticesA.Any(v2 => v2.pos == intersection))
                 {
                     verticesA.Insert(i + 1, new Vertex(intersection, true));
-                    verticesB.Insert(j + 1, new Vertex(intersection, true));
+                }               
+            }   
+        }
+        
+
+        for (int i = 0; i < verticesB.Count; i++)
+        {
+            for (int j = 0; j < verticesA.Count; j++)
+            {
+                bool inter = LineIntersector.intersectionPoint(verticesB[i].pos, verticesB[(i + 1) % verticesB.Count].pos, verticesA[j].pos, verticesA[(j + 1) % verticesA.Count].pos, out Vector2 intersection);
+
+                if (inter == true && !verticesB.Any(v2 => v2.pos == intersection))
+                {
+                    verticesB.Insert(i + 1, new Vertex(intersection, true));
                 }
-                j++;
             }
-            j = 0; i++;
         }
     }
     static void crossoverPolygons()
@@ -207,6 +222,16 @@ public static class PolygonBooleans
     {
         indexA = (indexA + 1) % verticesA.Count;
         step2();
+    }
+
+    static bool specialCase(int i, List<Vertex> vertices)
+    {
+        if (vertices[i].outside == true)
+            return true;
+
+        
+
+        return false;
     }
 
 }
