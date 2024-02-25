@@ -170,7 +170,7 @@ public static class PolygonBooleans
     }
     static void step3()
     {
-        if (verticesA[indexA].cross == -1)
+        if (verticesA[indexA].cross == -1 || specialCaseThisToOther(indexA, booleantype))
         {
             step9();
         }
@@ -202,7 +202,7 @@ public static class PolygonBooleans
     }
     static void step7()
     {
-        if (verticesB[indexB].cross == -1)
+        if (verticesB[indexB].cross == -1 || specialCaseOtherToThis(indexB))
         {
             step5();
         }
@@ -224,12 +224,47 @@ public static class PolygonBooleans
         step2();
     }
 
-    static bool specialCase(int i, List<Vertex> vertices)
+    static bool specialCaseThisToOther(int iA, Bool type)
     {
-        if (vertices[i].outside == true)
+        int vertexAfterCrossing = verticesA[iA].cross;
+        int thisNext = mod(iA + 1, verticesA.Count);
+
+        if (type == Bool.Subtract){
+            vertexAfterCrossing = mod(vertexAfterCrossing - 1, verticesB.Count);
+            if (verticesB[vertexAfterCrossing].outside == true)
+                return true;
+        }
+
+        else{
+            vertexAfterCrossing = mod(vertexAfterCrossing + 1, verticesB.Count);
+            if (verticesB[vertexAfterCrossing].outside == false)
+                return true;
+        }
+
+        if (verticesB[vertexAfterCrossing].cross == -1)
+            return false;
+
+        if (verticesB[vertexAfterCrossing].cross == thisNext)
             return true;
 
-        
+
+        return false;
+    }
+    static bool specialCaseOtherToThis(int iB) 
+    {
+        int vertexAfterCrossing = verticesB[iB].cross;
+        vertexAfterCrossing = mod(vertexAfterCrossing + 1, verticesA.Count);
+        int thisNext = mod(iB - 1, verticesB.Count);
+
+        if (verticesA[vertexAfterCrossing].outside == false)
+            return true;
+
+        if (verticesA[vertexAfterCrossing].cross == -1)
+            return false;
+
+        if (verticesA[vertexAfterCrossing].cross == thisNext)
+            return true;
+
 
         return false;
     }
